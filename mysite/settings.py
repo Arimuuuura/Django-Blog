@@ -37,6 +37,8 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'widget-tweaks', # テンプレートでホームをレンダリングするときにCSSクラスや属性を変更できるモジュール
+    'app', # 作成したアプリケーション
 ]
 
 MIDDLEWARE = [

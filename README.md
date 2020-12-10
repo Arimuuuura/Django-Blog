@@ -20,3 +20,18 @@ requirements.txt を作成し、開発に必要なパッケージを記載する
 ```
 
 プロジェクトの作成
+```
+% django-admin startproject プロジェクト名 .
+```
+
+DBのセットアップ
+```
+% python manage.py migrate
+```
+
+ブラウザで確認
+```
+% python manage.py runserver
+```
+
+[こちら](http://127.0.0.1:8000/) にアクセス

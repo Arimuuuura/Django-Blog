@@ -10,12 +10,14 @@
                 <div class="card-body">
                     <h2 class="card-title">{{ post.title }}</h2>
                     <p class="card-text">{{ post.content|truncatechars:100 }}</p> <!-- テンプレートフィルターを使用してテンプレート上でデータを制御できる（本文を100文字に制限する） -->
-                    <div class="btn btn-warning">詳細</div>
+                    <a href="{% url 'post_detail' post.id %}" class="stretched-link">
+                        <div class="btn btn-warning">詳細</div>
+                    </a>
                 </div>
                 <div class="card-footer text-muted">
                     {{ post.created|date }} by {{ post.author }} <!-- 日付と筆者 -->
                 </div>
-                <a href="" class="stretched-link"></a>
+                <!-- <a href="{% url 'post_detail' post.id %}" class="stretched-link"></a> -->
             </div>
         {% endfor %}
     </div>

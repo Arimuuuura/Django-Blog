@@ -40,3 +40,44 @@ class CreatePostView(LoginRequiredMixin, View): # 新規投稿画面
         return render(request, 'app/post_form.html', {
             'form': form
         })
+
+class PostEditView(LoginRequiredMixin, View): #投稿の編集
+    def get(self, request, *args, **kwargs):
+        post_data = Post.objects.get(id=self.kwargs['pk'])
+        form = PostForm(
+            request.POST or None,
+            initial = {
+                'title': post_data.title,
+                'content': post_data.content
+            }
+        )
+
+        return render(request, 'app/post_form.html', {
+            'form': form
+        })
+
+    def post(self, request, *args, **kwargs): #編集画面から投稿した時の処理
+        form = PostForm(request.POST or None)
+
+        if form.is_valid(): # post formの内容をチェック
+            post_data = Post.objects.get(id=self.kwargs['pk']) # postの内容を代入
+            post_data.title = form.cleaned_data['title']
+            post_data.content = form.cleaned_data['content']
+            post_data.save() # DBに保存
+            return redirect('post_detail', self.kwargs['pk']) # DBのデータを書き換える
+
+        return render(request, 'app/post_form.html', {
+            'form': form
+        })
+
+class PostDeleteView(LoginRequiredMixin, View): #投稿の削除
+    def get(self, request, *args, **kwargs):
+        post_data = Post.objects.get(id=self.kwargs['pk'])
+        return render(request, 'app/post_delete.html', {
+            'post_data': post_data
+        })
+
+    def post(self, request, *args, **kwargs): #削除するボタンを押したら index にリダイレクト
+        post_data = Post.objects.get(id=self.kwargs['pk'])
+        post_data.delete()
+        return redirect('index')

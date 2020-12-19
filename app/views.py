@@ -34,6 +34,8 @@ class CreatePostView(LoginRequiredMixin, View): # 新規投稿画面
             post_data.author = request.user
             post_data.title = form.cleaned_data['title']
             post_data.content = form.cleaned_data['content']
+            if request.FILES:
+                post_data.image = request.FILES.get('image')
             post_data.save() # DBに保存
             return redirect('post_detail', post_data.id) # 詳細画面にリダイレクト
 
@@ -48,7 +50,8 @@ class PostEditView(LoginRequiredMixin, View): #投稿の編集
             request.POST or None,
             initial = {
                 'title': post_data.title,
-                'content': post_data.content
+                'content': post_data.content,
+                'image': post_data.image,
             }
         )
 
@@ -63,6 +66,8 @@ class PostEditView(LoginRequiredMixin, View): #投稿の編集
             post_data = Post.objects.get(id=self.kwargs['pk']) # postの内容を代入
             post_data.title = form.cleaned_data['title']
             post_data.content = form.cleaned_data['content']
+            if request.FILES:
+                post_data.image = request.FILES.get('image')
             post_data.save() # DBに保存
             return redirect('post_detail', self.kwargs['pk']) # DBのデータを書き換える
 

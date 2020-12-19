@@ -5,6 +5,7 @@ from django.utils import timezone
 class Post(models.Model): # 投稿記事のDB
     author = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE) # 投稿者, on_delete は投稿者が削除されたら記事も削除される
     title = models.CharField("タイトル", max_length=200)
+    image = models.ImageField(upload_to='images', verbose_name='イメージ画像', null=True, blank=True)
     content = models.TextField("本文")
     created = models.DateTimeField("作成日", default=timezone.now)
 

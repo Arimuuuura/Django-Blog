@@ -6,6 +6,7 @@
 *.log
 *.pot
 *.pyc
+requirements.txt
 __pycache__/
 __init__.py
 local_settings.py

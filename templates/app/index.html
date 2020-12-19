@@ -7,6 +7,9 @@
     <div class="col-md-8">
         {% for post in post_data %}
             <div class="card md-4">
+                {% if post.image %}
+                <img src="{{ post.image.url }}" alt="" class="card-img-top index-img">
+                {% endif %}
                 <div class="card-body">
                     <h2 class="card-title">{{ post.title }}</h2>
                     <p class="card-text">{{ post.content|truncatechars:100 }}</p> <!-- テンプレートフィルターを使用してテンプレート上でデータを制御できる（本文を100文字に制限する） -->

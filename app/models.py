@@ -10,6 +10,7 @@ class Category(models.Model):
 
 class Post(models.Model): # 投稿記事のDB
     author = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE) # 投稿者, on_delete は投稿者が削除されたら記事も削除される
+    category = models.ForeignKey(Category, verbose_name='カテゴリ', on_delete=models.PROTECT) # Post と Category を連携させる(PROTECT にすることでカテゴリが削除されたときに投稿が削除されるのを防ぐ)
     title = models.CharField("タイトル", max_length=200)
     image = models.ImageField(upload_to='images', verbose_name='イメージ画像', null=True, blank=True)
     content = models.TextField("本文")

@@ -8,4 +8,5 @@ urlpatterns = [
     path('post/<int:pk>/edit', views.PostEditView.as_view(), name='post_edit'), #投稿の編集画面
     path('post/<int:pk>/delete', views.PostDeleteView.as_view(), name='post_delete'), #投稿の削除
     path('category/<str:category>', views.CategoryView.as_view(), name='category'), #投稿の設定(str を設定することでカテゴリの名前がURLになる)
+    path('search/', views.SearchView.as_view(), name='search'), #検索ページ
 ]

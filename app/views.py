@@ -3,6 +3,9 @@ from django.views.generic import View
 from .models import Post, Category
 from .forms import PostForm
 from django.contrib.auth.mixins import LoginRequiredMixin # ログインが必須になる
+from django.db.models import Q #or 検索
+from functools import reduce
+from operator import and_ #足し算
 
 class IndexView(View): # ホーム画面
     def get(self, request, *args, **kwargs):
@@ -101,3 +104,22 @@ class CategoryView(View):
         return render(request, 'app/index.html', {
             'post_data': post_data
         })
+
+class SearchView(View):
+    def get(self, request, *args, **kwargs):
+        post_data = Post.objects.order_by('-id')
+        keyword = request.GET.get('keyword')
+
+        if keyword:
+            exclusion_list = set([' ', '　']) #半角と全角のスペースを除外するリスト
+            query_list = ''
+            for word in keyword:
+                if not word in exclusion_list:
+                    query_list += word #スペースを除いた文字の抽出
+            query = reduce(and_, [Q(title__icontains=q) | Q(content__icontains=q) for q in query_list]) #キーワードをQオブジェクトでOR検索
+            post_data = post_data.filter(query) #投稿データにキーワードでフィルターをかける
+
+        return render(request, 'app/index.html', {
+            'keyword': keyword,
+            'post_data': post_data
+        }) #フィルターをかけたデータをテンプレートに渡す
